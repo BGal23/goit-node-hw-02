@@ -1,16 +1,11 @@
 const express = require("express");
+const { Contacts } = require("../schema");
 const router = express.Router();
-const {
-  listContacts,
-  getContactById,
-  addContact,
-  removeContact,
-  updateContact,
-} = require("../../models/contacts");
+const { validateJoi } = require("./validation");
 
 router.get("/", async (__, res) => {
+  const contacts = await Contacts.find();
   try {
-    const contacts = await listContacts();
     res.json({
       status: "success",
       code: 200,
@@ -26,9 +21,9 @@ router.get("/", async (__, res) => {
 });
 
 router.get("/:contactId", async (req, res) => {
+  const { contactId } = req.params;
   try {
-    const { contactId } = req.params;
-    const contact = await getContactById(contactId);
+    const contact = await Contacts.findById(contactId);
     res.json({
       status: "success",
       code: 200,
@@ -45,9 +40,11 @@ router.get("/:contactId", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  const body = req.body;
+  const contact = new Contacts(body);
+  const validate = validateJoi(contact);
   try {
-    const body = req.body;
-    const contact = await addContact(body);
+    await validate.value.save();
     res.json({
       status: "success",
       code: 201,
@@ -64,13 +61,13 @@ router.post("/", async (req, res) => {
 });
 
 router.delete("/:contactId", async (req, res) => {
+  const { contactId } = req.params;
   try {
-    const { contactId } = req.params;
-    const contact = await removeContact(contactId);
+    const deleteContact = await Contacts.deleteOne({ _id: contactId });
     res.json({
       status: "success",
       code: 200,
-      data: contact,
+      data: deleteContact,
       message: "Contact has been deleted",
     });
   } catch (error) {
@@ -83,10 +80,12 @@ router.delete("/:contactId", async (req, res) => {
 });
 
 router.put("/:contactId", async (req, res) => {
+  const { contactId } = req.params;
+  const body = req.body;
+  const contact = await Contacts.findOneAndUpdate({ _id: contactId }, body);
+  const validate = validateJoi(contact);
   try {
-    const { contactId } = req.params;
-    const body = req.body;
-    const contact = await updateContact(contactId, body);
+    await validate.value.save();
     res.json({
       status: "success",
       code: 200,
