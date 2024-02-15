@@ -9,10 +9,7 @@ app.listen(3000, () => {
 
 const uriDb = process.env.DB_HOST;
 
-const connection = mongoose.connect(uriDb, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const connection = mongoose.connect(uriDb);
 
 connection
   .then((res) => console.log("Database connection successful".green))
