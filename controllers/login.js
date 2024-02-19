@@ -23,6 +23,7 @@ router.post("/login", async (req, res) => {
   }
   const token = createToken(user._id);
   try {
+    await User.updateOne({ email }, { token: token });
     res.json({
       status: "success",
       code: 200,
