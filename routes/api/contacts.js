@@ -1,7 +1,7 @@
 const express = require("express");
-const { Contacts } = require("../schema");
 const router = express.Router();
-const { validatePerson } = require("./validation");
+const { Contacts } = require("../../models/schema");
+const { validatePerson } = require("../../models/validation");
 
 router.get("/", async (__, res) => {
   try {

@@ -3,24 +3,29 @@ const logger = require("morgan");
 const cors = require("cors");
 
 const contactsRouter = require("./routes/api/contacts");
-const userRouter = require("./controllers/testJWT"); // test
+const signup = require("./controllers/signup");
+const login = require("./controllers/login");
+const { middleware, list } = require("./controllers/list");
 
 const app = express();
-
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
 app.use(cors());
+
 app.use(express.json());
-
 app.use("/api/contacts", contactsRouter);
-app.use("/controllers/testJWT.js", userRouter); // test
 
-app.use((req, res) => {
+app.use(express.urlencoded());
+app.use("/api/users", signup);
+app.use("/api/users", login);
+app.use("/api/users", middleware, list);
+
+app.use((_, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
-app.use((err, req, res, next) => {
+app.use((err, _, res, next) => {
   res.status(500).json({ message: err.message });
 });
 
