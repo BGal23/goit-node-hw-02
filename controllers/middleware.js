@@ -1,4 +1,4 @@
-const { User } = require("../models/schema");
+const { User } = require("../models/schema.js");
 const { authToken } = require("../models/auth.js");
 
 const middleware = async (req, res, next) => {

@@ -1,9 +1,7 @@
-const express = require("express");
-const router = express.Router();
 const { User } = require("../models/schema");
 const { createToken } = require("../models/token");
 
-router.post("/login", async (req, res) => {
+const login = async (req, res) => {
   const body = req.body;
   const { email, password } = body;
   const user = await User.findOne({ email });
@@ -37,6 +35,6 @@ router.post("/login", async (req, res) => {
       message: "Bad Request",
     });
   }
-});
+};
 
-module.exports = router;
+module.exports = { login };

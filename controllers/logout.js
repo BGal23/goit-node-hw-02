@@ -1,8 +1,6 @@
-const express = require("express");
-const router = express.Router();
 const { User } = require("../models/schema");
 
-router.post("/logout", async (req, res) => {
+const logout = async (req, res) => {
   const { id, email } = req.user;
   try {
     await User.updateOne({ _id: id }, { token: null });
@@ -19,6 +17,6 @@ router.post("/logout", async (req, res) => {
       message: "Bad Request",
     });
   }
-});
+};
 
-module.exports = router;
+module.exports = { logout };

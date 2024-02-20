@@ -11,7 +11,7 @@ const uriDb = process.env.DB_HOST;
 const connection = mongoose.connect(uriDb);
 
 connection
-  .then((res) => console.log("Database connection successful".green))
+  .then(() => console.log("Database connection successful".green))
   .catch((error) => {
     console.error("Database connection failed".red, error.message.red);
     process.exit(1);
