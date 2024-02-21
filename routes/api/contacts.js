@@ -3,9 +3,14 @@ const router = express.Router();
 const { Contacts } = require("../../models/schema");
 const { validatePerson } = require("../../models/validation");
 
-router.get("/", async (__, res) => {
+router.get("/", async (req, res) => {
+  const { favorite, page, limit } = req.query;
+  const filter = favorite ? { favorite: favorite } : {};
+
   try {
-    const contacts = await Contacts.find();
+    const contacts = await Contacts.find(filter)
+      .skip((page - 1) * limit)
+      .limit(limit);
     res.json({
       status: "success",
       code: 200,
