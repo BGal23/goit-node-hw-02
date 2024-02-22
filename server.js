@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 require("colors");
 
-app.listen(3000, () => {
-  console.log("Server running. Use our API on port: 3000");
+app.listen(process.env.PORT || 3001, () => {
+  console.log(
+    `Server running. Use our API on port: ${process.env.PORT || 3001}`
+  );
 });
 
 const uriDb = process.env.DB_HOST;
