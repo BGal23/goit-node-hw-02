@@ -43,7 +43,7 @@ const avatars = async (req, res) => {
     });
   }
   try {
-    await jimpConvert(pathToTheFile);
+    jimpConvert(pathToTheFile);
     await User.updateOne(
       { _id: id },
       {
