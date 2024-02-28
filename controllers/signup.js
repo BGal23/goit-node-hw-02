@@ -1,5 +1,6 @@
 const { User } = require("../models/schema");
 const { validateUser } = require("../models/validation");
+const gravatar = require("gravatar");
 
 const signup = async (req, res) => {
   const body = req.body;
@@ -27,8 +28,12 @@ const signup = async (req, res) => {
       message: "Email in use",
     });
   }
+  const avatar = gravatar.url(validate.value.email);
   try {
-    const user = await new User({ email: validate.value.email });
+    const user = await new User({
+      email: validate.value.email,
+      avatarURL: avatar,
+    });
     await user.setPassword(password);
     await user.save();
     res.json({
