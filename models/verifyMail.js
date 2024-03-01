@@ -9,13 +9,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendMail = (to, token) => {
+const sendMail = (to, token, isMailWasSent) => {
   const from = "bartek.gal23@gmail.com";
   const subject = "Test Mail";
-  const html = `<form action="http://localhost:3000/api/users/verify/${token}" method="get">
+  const html = `<form action="http://localhost:3000/api/auth/verify/${token}" method="get">
   <h2>Hello to my testing form</h2>
   <p>If you want to verified your mail, pleas click the button.</p>
   <button type="submit">Click and verified</button>
+  ${isMailWasSent ? "<p> This message has been resent</p>" : "<br />"}
   <p>Enjoy.</p>
 </form>`;
 

@@ -39,7 +39,7 @@ const signup = async (req, res) => {
     });
     await user.setPassword(password);
     await user.save();
-    await sendMail(user.email, user.verificationToken);
+    await sendMail(user.email, user.verificationToken, false);
     res.json({
       status: "success",
       code: 201,

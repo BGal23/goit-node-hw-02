@@ -10,6 +10,7 @@ const connection = mongoose.connect(uriDb);
 
 const contactsRouter = require("./routes/api/contacts");
 const usersRouter = require("./routes/api/users");
+const authRouter = require("./routes/api/auth");
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -30,6 +31,7 @@ app.use("/api/contacts", contactsRouter);
 
 app.use(express.urlencoded());
 app.use("/api/users", usersRouter);
+app.use("/api/auth", authRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
 
