@@ -15,11 +15,12 @@ const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 // ---- TO JEST WYŁĄCZONE DO TESTÓW, W INNYM PRZYPADKU MOZNA ODKOMENTOWAĆ
-// app.listen(process.env.PORT || 3001, () => {
-//   console.log(
-//     `Server running. Use our API on port: ${process.env.PORT || 3001}`
-//   );
-// });
+app.listen(process.env.PORT || 3001, () => {
+  console.log(
+    `Server running. Use our API on port: ${process.env.PORT || 3001}`
+  );
+});
+// -----------------------------------------------------------------------
 
 app.use(logger(formatsLogger));
 app.use(cors());
