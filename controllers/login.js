@@ -12,6 +12,13 @@ const login = async (req, res) => {
       message: "User whit this email does not exist",
     });
   }
+  if (!user.verify) {
+    return res.json({
+      status: "error",
+      code: 404,
+      message: "User has not been verified",
+    });
+  }
   if (!user || !user.validPassword(password)) {
     return res.json({
       status: "error",

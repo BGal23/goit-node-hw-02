@@ -10,16 +10,18 @@ const connection = mongoose.connect(uriDb);
 
 const contactsRouter = require("./routes/api/contacts");
 const usersRouter = require("./routes/api/users");
+const authRouter = require("./routes/api/auth");
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 // ---- TO JEST WYŁĄCZONE DO TESTÓW, W INNYM PRZYPADKU MOZNA ODKOMENTOWAĆ
-// app.listen(process.env.PORT || 3001, () => {
-//   console.log(
-//     `Server running. Use our API on port: ${process.env.PORT || 3001}`
-//   );
-// });
+app.listen(process.env.PORT || 3001, () => {
+  console.log(
+    `Server running. Use our API on port: ${process.env.PORT || 3001}`
+  );
+});
+// -----------------------------------------------------------------------
 
 app.use(logger(formatsLogger));
 app.use(cors());
@@ -29,6 +31,7 @@ app.use("/api/contacts", contactsRouter);
 
 app.use(express.urlencoded());
 app.use("/api/users", usersRouter);
+app.use("/api/auth", authRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
 
